@@ -55,7 +55,7 @@ def get_baseball_data_server_functions(input, output, session):
     @render_widget
     def baseball_home_runs_scatter():
         df = reactive_df.get()
-        plot = px.scatter(df, x="yearID", y="HR", color="HR", title="Home Runs Over Years")
+        plot = px.scatter(df, x="yearID", y="H", color="H", title="Hits Over Years")
         return plot
 
 
