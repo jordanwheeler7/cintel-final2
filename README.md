@@ -1,9 +1,9 @@
 # Continuous Intelligence and Interactive Analytics - Reactive Apps
 
-- Interactive app: [cintel-04-reactive](https://jordan-wheeler7.shinyapps.io/cintel-04-reactive/)
-- Repository: [cintel-04-reactive](https://github.com/jordanwheeler7/cintel-04-reactive)
+- Interactive app: [cintel-final2](https://jordan-wheeler7.shinyapps.io/cintel-final2/)
+- Repository: [cintel-final2](https://github.com/jordanwheeler7/cintel-final2)
 - Author: [Jordan Wheeler](https://github.com/jordanwheeler7)
-- Module: 4
+- Final Project
 
 -----
 

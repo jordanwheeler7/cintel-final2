@@ -12,10 +12,6 @@ Each Shiny app has two parts:
 from shiny import App, ui
 import shinyswatch
 
-from flights_server import get_flights_server_functions
-from flights_ui_inputs import get_flights_inputs
-from flights_ui_outputs import get_flights_outputs
-
 from mtcars_server import get_mtcars_server_functions
 from mtcars_ui_inputs import get_mtcars_inputs
 from mtcars_ui_outputs import get_mtcars_outputs
@@ -32,6 +28,10 @@ from olympics_server import get_summer_server_functions
 from olympics_ui_inputs import get_summer_inputs
 from olympics_ui_outputs import get_summer_outputs
 
+from mlb_stats_inputs import get_baseball_data_inputs
+from mlb_stats_outputs import get_baseball_data_outputs
+from mlb_stats_server import get_baseball_data_server_functions
+
 from util_logger import setup_logger
 
 logger, logname = setup_logger(__name__)
@@ -39,10 +39,10 @@ logger, logname = setup_logger(__name__)
 app_ui = ui.page_navbar(
     shinyswatch.theme.solar(),
     ui.nav(
-        "Flights",
+        "MLB Stats",
         ui.layout_sidebar(
-            get_flights_inputs(),
-            get_flights_outputs(),
+            get_baseball_data_inputs(),
+            get_baseball_data_outputs(),
         ),
     ),
     ui.nav(
@@ -74,24 +74,34 @@ app_ui = ui.page_navbar(
         ),
     ),
     ui.nav(ui.a("About", href="https://github.com/jordanwheeler7")),
-    ui.nav(ui.a("GitHub", href="https://github.com/jordanwheeler7/cintel-04-reactive")),
-    ui.nav(ui.a("App", href="https://jordan-wheeler7.shinyapps.io/cintel-04-reactive/")),
+    ui.nav(ui.a("GitHub", href="https://github.com/jordanwheeler7/cintel-final")),
+    ui.nav(ui.a("App", href="https://jordan-wheeler7.shinyapps.io/cintel-final/")),
     ui.nav(ui.a("Examples", href="https://shinylive.io/py/examples/")),
     ui.nav(ui.a("Widgets", href="https://shiny.rstudio.com/py/docs/ipywidgets.html")),
+    ui.nav(ui.a("MLB Stats", href="https://www.baseball-reference.com/teams/")),
     title=ui.h1("Wheeler Dashboard"),
 )
 
-
 def server(input, output, session):
     """Define functions to create UI outputs."""
-
     logger.info("Starting server...")
-    get_flights_server_functions(input, output, session)
-    get_mtcars_server_functions(input, output, session)
-    get_penguins_server_functions(input, output, session)
-    get_relationships_server_functions(input, output, session)
-    get_summer_server_functions(input, output, session)
+    
+    # Initialize the reactive outputs for each Shiny application
+    team_data_server_functions = get_baseball_data_server_functions(input, output, session)
+    mtcars_server_functions = get_mtcars_server_functions(input, output, session)
+    penguins_server_functions = get_penguins_server_functions(input, output, session)
+    relationships_server_functions = get_relationships_server_functions(input, output, session)
+    summer_server_functions = get_summer_server_functions(input, output, session)
 
+    # Merge all reactive outputs into a single list
+    all_reactive_outputs = (
+        team_data_server_functions
+        + mtcars_server_functions
+        + penguins_server_functions
+        + relationships_server_functions
+        + summer_server_functions
+    )
+    
+    return all_reactive_outputs
 
-# app = App(app_ui, server, debug=True)
 app = App(app_ui, server)
