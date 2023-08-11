@@ -1,6 +1,6 @@
 # Continuous Intelligence and Interactive Analytics - Reactive Apps
 
-- Interactive app: [cintel-final2](https://jordan-wheeler7.shinyapps.io/cintel-final/)
+- Interactive app: [cintel-final](https://jordan-wheeler7.shinyapps.io/cintel-final/)
 - Repository: [cintel-final2](https://github.com/jordanwheeler7/cintel-final2)
 - Author: [Jordan Wheeler](https://github.com/jordanwheeler7)
 - Website: [cintel-final2](https://jordanwheeler7.github.io/cintel-final2)
