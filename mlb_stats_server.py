@@ -22,10 +22,11 @@ def get_baseball_data_server_functions(input, output, session):
     reactive_df = reactive.Value()
 
     @reactive.Effect
-    @reactive.event(input.SELECTED_TEAM)
+    @reactive.event(input.SELECTED_TEAM, input.SELECTED_YEAR)
     def _():
         selected_team = input.SELECTED_TEAM()
-        df = original_df[original_df["name"] == selected_team].copy()
+        min_year, max_year = input.SELECTED_YEAR()
+        df = original_df[(original_df["name"] == selected_team) & (original_df["yearID"] >= min_year) & (original_df["yearID"] <= max_year)].copy()
 
         # Update the reactive DataFrame
         reactive_df.set(df)
@@ -33,16 +34,19 @@ def get_baseball_data_server_functions(input, output, session):
     @output
     @render.text
     def baseball_record_count_string():
+        selected_team = input.SELECTED_TEAM()
         filtered_df = reactive_df.get()
         filtered_count = len(filtered_df)
-        message = f"Showing {filtered_count} records for selected team"
+        ws_years = filtered_df[filtered_df["WSWin"] == "Y"]["yearID"].tolist()
+        ws_years_str = ", ".join(str(year) for year in ws_years)
+        message = f"Showing {filtered_count} records for {selected_team}. They won the WS in {ws_years_str}"
         return message
-
+    
     @output
     @render.table
     def baseball_data_table():
         filtered_df = reactive_df.get()
-        return filtered_df[["yearID", "G", "W", "L"]]
+        return filtered_df[["yearID","G", "W", "L", "DivWin", "WSWin", "R","H", "RA", "ER", "ERA"]]
 
     @output
     @render_widget
@@ -57,7 +61,6 @@ def get_baseball_data_server_functions(input, output, session):
         df = reactive_df.get()
         plot = px.scatter(df, x="yearID", y="H", color="H", title="Hits Over Years")
         return plot
-
 
     @output
     @render_widget
