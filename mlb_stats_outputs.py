@@ -13,7 +13,7 @@ def get_baseball_data_outputs():
         ui.h2("Main Panel with Reactive Output"),
         ui.tags.hr(),
         ui.tags.section(
-            ui.h3('MLB Stats Dashboard'),
+            ui.h3('MLB Stats Dashboard through 2015'),
             ui.tags.br(),
             ui.output_text('baseball_record_count_string'),
             ui.tags.br(),
